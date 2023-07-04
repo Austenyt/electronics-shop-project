@@ -16,7 +16,7 @@ class Item:
         self.name = name
         self.price = price
         self.quantity = quantity
-        self.all.append(name)
+        self.all.append(self)
 
     def calculate_total_price(self) -> float:
         """
@@ -31,3 +31,4 @@ class Item:
         Применяет установленную скидку для конкретного товара.
         """
         self.price = self.price * Item.pay_rate
+        return self.price
