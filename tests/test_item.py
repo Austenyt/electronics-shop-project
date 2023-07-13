@@ -15,6 +15,11 @@ def test_apply_discount():
     Item.pay_rate = 0.8
     assert item1.price, 8000.0
 
+def test_instantiate_from_csv():
+    Item.instantiate_from_csv()
+    item1 = Item.all[0]
+    assert item1.price == 100
+    assert item1.quantity == 1
 
 if __name__ == '__main__':
     pytest.main()

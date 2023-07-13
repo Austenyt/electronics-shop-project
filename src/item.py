@@ -6,7 +6,7 @@ class Item:
     pay_rate = 1.0
     all = []
 
-    def __init__(self, name: str, price: float, quantity: int, name_length: int) -> None:
+    def __init__(self, name: str, price: float, quantity: int) -> None:
         """
         Создание экземпляра класса item.
 
@@ -17,7 +17,6 @@ class Item:
         self.__name = name
         self.price = price
         self.quantity = quantity
-        self.name_length = name_length
         self.all.append(self)
 
     def calculate_total_price(self) -> float:
@@ -47,11 +46,12 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls):
-        with open('items.csv', newline='') as csvfile:
+        cls.all.clear()
+        with open('../src/items.csv', newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                item = cls(row['name'], row['price'], row['quantity'])
+                cls(row['name'], cls.string_to_number(row['price']), cls.string_to_number(row['quantity']))
 
     @staticmethod
-    def string_to_number():
-        pass
+    def string_to_number(string):
+        return int(float(string))
