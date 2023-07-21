@@ -13,16 +13,23 @@ class MixinLang:
     def change_lang(self):
         if self._language == "EN":
             self._language = "RU"
-        else:
+        elif self._language == "RU":
             self._language = "EN"
+        else:
+            raise ValueError("Язык не опознан")
         return self
 
 
-class Keyboard(Item, MixinLang):
+class Keyboard(MixinLang, Item):
 
-    def __init__(self, name: str, price: float, quantity: int) -> None:
+    def __init__(self, name: str, price: float, quantity: int):
+        super().__init__(_language)
         super().__init__(name, price, quantity)
-        super().__init__(language)
+
+
+    @property
+    def language(self):
+        return self._language
 
     def __str__(self):
         return f"{self._language}"
