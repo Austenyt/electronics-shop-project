@@ -20,10 +20,9 @@ class Item:
         self.price = price
         self.quantity = quantity
         self.all.append(self)
+        super().__init__()
 
     def __add__(self, other):
-        # if not isinstance(other, Item):
-        #     raise ValueError('Складывать можно только объекты Item и дочерние от них.')
         return self.quantity + other.quantity
 
     def __repr__(self):
@@ -31,20 +30,6 @@ class Item:
 
     def __str__(self):
         return f"{self.name}"
-
-    def calculate_total_price(self) -> float:
-        """
-        Рассчитывает общую стоимость конкретного товара в магазине.
-
-        :return: Общая стоимость товара.
-        """
-        return self.price * self.quantity
-
-    def apply_discount(self) -> None:
-        """
-        Применяет установленную скидку для конкретного товара.
-        """
-        self.price = self.price * Item.pay_rate
 
     @property
     def name(self):
@@ -68,3 +53,19 @@ class Item:
     @staticmethod
     def string_to_number(string):
         return int(float(string))
+
+    def calculate_total_price(self) -> float:
+        """
+        Рассчитывает общую стоимость конкретного товара в магазине.
+
+        :return: Общая стоимость товара.
+        """
+        return self.price * self.quantity
+
+    def apply_discount(self) -> None:
+        """
+        Применяет установленную скидку для конкретного товара.
+        """
+        self.price = self.price * Item.pay_rate
+
+
