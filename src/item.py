@@ -23,6 +23,8 @@ class Item:
         super().__init__()
 
     def __add__(self, other):
+        if not isinstance(other, Item):
+            raise ValueError('Складывать можно только объекты Item и дочерние от них.')
         return self.quantity + other.quantity
 
     def __repr__(self):
