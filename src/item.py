@@ -58,13 +58,22 @@ class Item:
                 cls(row['name'], cls.string_to_number(row['price']), cls.string_to_number(row['quantity']))
         except FileNotFoundError:
             print("_Отсутствует файл item.csv_")
-    try:
-        file = open('../src/items.csv', newline='')
-        s = file.readlines()
-        print(s)
-    except FileNotFoundError:
-        print("_Отсутствует файл item.csv_")
-
+    
+try:
+            items = []
+            with open("src/items.csv", encoding="cp1251") as file:
+                reader = csv.DictReader(file)
+                for row in reader:
+                    name = row["name"]
+                    price = float(row["price"])
+                    quantity = int(row["quantity"])
+                    item = cls(name, price, quantity)
+                    items.append(item)
+            return items
+        # except FileNotFoundError:
+        #     raise Exception("Отсутствует файл item.csv")
+        except KeyError:
+            raise InstantiateCSVError()
 
     @staticmethod
     def string_to_number(string):
