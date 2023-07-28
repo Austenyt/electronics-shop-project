@@ -52,6 +52,14 @@ class Item:
             for row in reader:
                 cls(row['name'], cls.string_to_number(row['price']), cls.string_to_number(row['quantity']))
 
+    try:
+        file = open('../src/items.csv', newline='')
+        s = file.readlines()
+        print(s)
+    except FileNotFoundError:
+        print("_Отсутствует файл item.csv_")
+
+
     @staticmethod
     def string_to_number(string):
         return int(float(string))
@@ -71,3 +79,9 @@ class Item:
         self.price = self.price * Item.pay_rate
 
 
+class InstantiateCSVError(Item):
+    def __init__(self):
+        super().__init__()
+    if len(reader.fieldnames) != 3:
+        raise InstantiateCSVError()
+        # print("Невозможно открыть файл")
