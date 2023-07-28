@@ -1,5 +1,8 @@
-import csv
+class InstantiateCSVError(Exception):
+    """Исключение, выбрасываемое при ошибке чтения данных из CSV файла"""
 
+    def __init__(self):
+        super().__init__("Файл item.csv поврежден")
 
 class Item:
     """
@@ -45,13 +48,16 @@ class Item:
             self.__name = name_length
 
     @classmethod
+    import csv
     def instantiate_from_csv(cls):
         cls.all.clear()
-        with open('../src/items.csv', newline='') as csvfile:
+        try:
+            with open('../src/items.csv', newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 cls(row['name'], cls.string_to_number(row['price']), cls.string_to_number(row['quantity']))
-
+        except FileNotFoundError:
+            print("_Отсутствует файл item.csv_")
     try:
         file = open('../src/items.csv', newline='')
         s = file.readlines()
