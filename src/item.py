@@ -1,9 +1,3 @@
-class InstantiateCSVError(Exception):
-    """Исключение, выбрасываемое при ошибке чтения данных из CSV файла"""
-
-    def __init__(self):
-        super().__init__("Файл item.csv поврежден")
-
 class Item:
     """
     Класс для представления товара в магазине.
@@ -47,37 +41,45 @@ class Item:
         else:
             self.__name = name_length
 
+    # @classmethod
+    # def instantiate_from_csv(cls):
+    #     import csv
+    #     cls.all.clear()
+    #     try:
+    #         with open('../src/items.csv', newline='') as csvfile:
+    #             reader = csv.DictReader(csvfile)
+    #             for row in reader:
+    #                 cls(row['name'], cls.string_to_number(row['price']), cls.string_to_number(row['quantity']))
+    #                 print(row)
+    #     except FileNotFoundError:
+    #         raise Exception("Отсутствует файл items.csv")
+    #     except KeyError:
+    #         raise Exception("Файл item.csv поврежден")
+    #         # raise InstantiateCSVError()
+
     @classmethod
-    import csv
     def instantiate_from_csv(cls):
-        cls.all.clear()
+        import inspect
+        import os
+        import csv
+        class_file = inspect.getfile(cls)  # узнаем название файла содержащего класс
+        path_to_dir = os.path.dirname(class_file)  # ищем абсолютный путь до файла
         try:
-            with open('../src/items.csv', newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                cls(row['name'], cls.string_to_number(row['price']), cls.string_to_number(row['quantity']))
+            with open(f'{path_to_dir}/items1.csv', encoding='pt154') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for ex in reader:
+                    if len(reader.fieldnames) == 3:
+                        cls(name=ex['name'], price=float(ex['price']), quantity=int(ex['quantity']))
+                    else:
+                        raise Exception("Файл items1.csv поврежден")
         except FileNotFoundError:
-            print("_Отсутствует файл item.csv_")
-    
-try:
-            items = []
-            with open("src/items.csv", encoding="cp1251") as file:
-                reader = csv.DictReader(file)
-                for row in reader:
-                    name = row["name"]
-                    price = float(row["price"])
-                    quantity = int(row["quantity"])
-                    item = cls(name, price, quantity)
-                    items.append(item)
-            return items
-        # except FileNotFoundError:
-        #     raise Exception("Отсутствует файл item.csv")
-        except KeyError:
-            raise InstantiateCSVError()
+            print("Отсутствует файл items.csv")
+
 
     @staticmethod
     def string_to_number(string):
         return int(float(string))
+
 
     def calculate_total_price(self) -> float:
         """
@@ -92,11 +94,3 @@ try:
         Применяет установленную скидку для конкретного товара.
         """
         self.price = self.price * Item.pay_rate
-
-
-class InstantiateCSVError(Item):
-    def __init__(self):
-        super().__init__()
-    if len(reader.fieldnames) != 3:
-        raise InstantiateCSVError()
-        # print("Невозможно открыть файл")
