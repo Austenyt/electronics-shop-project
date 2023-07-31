@@ -2,7 +2,6 @@
 import csv
 import pytest
 from src.item import Item
-import pandas as pd
 
 
 def test_repr():
@@ -35,23 +34,17 @@ def test_instantiate_from_csv():
     assert item1.quantity == 1
 
 
-def test_exp_csv_file_corrupt():
-    with pytest.raises(KeyError):
-
-        with open('../src/items1.csv', newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                Item(row['name'], Item.string_to_number(row['price']), Item.string_to_number(row['quantity']))
+@pytest.fixture
+def csv_file():
+    """Создаем экземпляр класса в фикстуре"""
+    return Item("Смартфон", 10000, 20)
 
 
-def test_instantiate_from_csv_corrupted_file():
-    with pytest.raises(Exception, match="Файл items.csv поврежден"):
-        Item.instantiate_from_csv()
-
-
-def test_exp_csv_file_not_found():
-    with pytest.raises(FileNotFoundError):
-        pd.read_csv('../src/items2.csv')
+def test_exp_from_csv_file():
+    with pytest.raises(FileNotFoundError, match="Отсутствует файл items.csv"):
+        Item.instantiate_from_csv('../src/items.csv')
+    with pytest.raises(ValueError, match="Файл item.csv поврежден"):
+        Item.instantiate_from_csv('../src/items.csv')
 
 
 if __name__ == '__main__':
