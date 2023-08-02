@@ -1,12 +1,9 @@
 import csv
-import inspect
-import os
 
 
 class InstantiateCSVError(Exception):
-
     def __str__(self):
-        return "Файл item.csv поврежден"
+        return "Файл item1.csv поврежден"
 
 
 class Item:
@@ -64,7 +61,7 @@ class Item:
                     except ValueError:
                         raise InstantiateCSVError()
         except FileNotFoundError:
-            raise Exception("Отсутствует файл items.csv")
+            raise FileNotFoundError("Отсутствует файл items2.csv")
 
     @staticmethod
     def string_to_number(string):
