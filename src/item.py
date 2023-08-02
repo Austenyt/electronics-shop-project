@@ -8,6 +8,7 @@ class InstantiateCSVError(Exception):
     def __str__(self):
         return "Файл item.csv поврежден"
 
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -64,22 +65,6 @@ class Item:
                         raise InstantiateCSVError()
         except FileNotFoundError:
             raise Exception("Отсутствует файл items.csv")
-
-    # @classmethod
-    # def instantiate_from_csv(cls, filename='../src/items.csv'):
-    #     class_file = inspect.getfile(cls)  # узнаем название файла содержащего класс
-    #     path_to_dir = os.path.dirname(class_file)  # ищем абсолютный путь до файла
-    #     try:
-    #         with open(f'{path_to_dir}/items.csv', encoding='pt154') as csvfile:
-    #             reader = csv.DictReader(csvfile)
-    #             for ex in reader:
-    #                 try:
-    #                     if len(reader.fieldnames) == 3:
-    #                         cls(name=ex['name'], price=float(ex['price']), quantity=int(ex['quantity']))
-    #                 except ValueError:
-    #                     raise InstantiateCSVError()
-    #     except FileNotFoundError:
-    #         print("Отсутствует файл item.csv")
 
     @staticmethod
     def string_to_number(string):

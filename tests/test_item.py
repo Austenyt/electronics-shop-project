@@ -34,16 +34,10 @@ def test_instantiate_from_csv():
     assert item1.quantity == 1
 
 
-@pytest.fixture
-def csv_file():
-    """Создаем экземпляр класса в фикстуре"""
-    return Item("Смартфон", 10000, 20)
-
-
 def test_exp_from_csv_file():
-    with pytest.raises(FileNotFoundError, match="Отсутствует файл items.csv"):
+    with pytest.raises(FileNotFoundError, match="Отсутствует файл items2.csv"):
         Item.instantiate_from_csv('../src/items.csv')
-    with pytest.raises(ValueError, match="Файл item.csv поврежден"):
+    with pytest.raises(ValueError, match="Файл item1.csv поврежден"):
         Item.instantiate_from_csv('../src/items.csv')
 
 
